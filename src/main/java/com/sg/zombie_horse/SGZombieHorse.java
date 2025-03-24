@@ -46,9 +46,6 @@ public class SGZombieHorse implements ModInitializer {
 			if (!willSpawn) {
 				return;
 			}
-			if (zombie.getPos().getY() < 64) {
-				return;
-			}
 			BlockPos pos = zombie.getBlockPos();
 			if(!zombie.getWorld().getBlockState(pos.offset(Direction.UP, 2)).isAir()){
 				return;
