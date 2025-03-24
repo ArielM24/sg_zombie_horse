@@ -3,7 +3,8 @@
 	"package": "com.sg.zombie_horse.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"ExampleMixin"
+		"ExampleMixin",
+		"DataSaverMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
