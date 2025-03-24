@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.Difficulty;
 
 import java.util.Random;
@@ -22,7 +23,7 @@ public class SGZombieHorse implements ModInitializer {
 
 	public static final Random r = new Random();
 
-	public static final int spawnRatio = 1;
+	public static final int spawnRatio = 0;
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 	@Override
@@ -40,7 +41,8 @@ public class SGZombieHorse implements ModInitializer {
 			if(check != null){
 				return;
 			}
-			boolean willSpawn = r.nextInt(3) <= spawnRatio;
+			((IEntityDataSaver)zombie).getPersistentData().putString("zombie_horse", "checked");
+			boolean willSpawn = r.nextInt(100) <= spawnRatio;
 			if (!willSpawn) {
 				return;
 			}
@@ -48,7 +50,9 @@ public class SGZombieHorse implements ModInitializer {
 				return;
 			}
 			BlockPos pos = zombie.getBlockPos();
-			zombie.getWorld().getBlockEntity(pos);
+			if(!zombie.getWorld().getBlockState(pos.offset(Direction.UP, 2)).isAir()){
+				return;
+			};
 			ZombieHorseEntity zombieHorse = EntityType.ZOMBIE_HORSE.create(serverLevel, SpawnReason.NATURAL);
 			zombieHorse.setPos(zombie.getPos().getX(), zombie.getPos().getY(), zombie.getPos().getZ());
 			zombieHorse.saddle(new ItemStack(Items.SADDLE), null);
@@ -58,7 +62,6 @@ public class SGZombieHorse implements ModInitializer {
 			}
 			serverLevel.spawnNewEntityAndPassengers(zombieHorse);
 			zombie.startRiding(zombieHorse);
-			((IEntityDataSaver)zombie).getPersistentData().putString("zombie_horse", "checked");
 		});
 	}
 }
