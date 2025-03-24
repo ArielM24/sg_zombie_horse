@@ -37,11 +37,11 @@ public class SGZombieHorse implements ModInitializer {
 				return;
 			}
 			ZombieEntity zombie = (ZombieEntity) entity;
-			NbtElement check = ((IEntityDataSaver)zombie).getPersistentData().get("zombie_horse");
+			NbtElement check = ((IEntityDataSaver)zombie).getPersistentData().get("zombie_horse_spawn");
 			if(check != null){
 				return;
 			}
-			((IEntityDataSaver)zombie).getPersistentData().putString("zombie_horse", "checked");
+			((IEntityDataSaver)zombie).getPersistentData().putString("zombie_horse_spawn", "checked");
 			boolean willSpawn = r.nextInt(100) <= spawnRatio;
 			if (!willSpawn) {
 				return;
