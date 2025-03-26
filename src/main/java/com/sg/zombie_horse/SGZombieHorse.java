@@ -3,6 +3,7 @@ package com.sg.zombie_horse;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.mob.ZombieHorseEntity;
@@ -37,11 +38,11 @@ public class SGZombieHorse implements ModInitializer {
 				return;
 			}
 			ZombieEntity zombie = (ZombieEntity) entity;
-			NbtElement check = ((IEntityDataSaver)zombie).getPersistentData().get("zombie_horse_spawn");
+			NbtElement check = ((IEntityDataSaver)zombie).getZombieHorsePersistentData().get("zombie_horse_spawn");
 			if(check != null){
 				return;
 			}
-			((IEntityDataSaver)zombie).getPersistentData().putString("zombie_horse_spawn", "checked");
+			((IEntityDataSaver)zombie).getZombieHorsePersistentData().putString("zombie_horse_spawn", "checked");
 			boolean willSpawn = r.nextInt(100) <= spawnRatio;
 			if (!willSpawn) {
 				return;
@@ -52,7 +53,7 @@ public class SGZombieHorse implements ModInitializer {
 			};
 			ZombieHorseEntity zombieHorse = EntityType.ZOMBIE_HORSE.create(serverLevel, SpawnReason.NATURAL);
 			zombieHorse.setPos(zombie.getPos().getX(), zombie.getPos().getY(), zombie.getPos().getZ());
-			zombieHorse.saddle(new ItemStack(Items.SADDLE), null);
+			zombieHorse.equipStack(EquipmentSlot.SADDLE, new ItemStack(Items.SADDLE));
 			zombieHorse.setTame(true);
 			if(zombie.isBaby()){
 				zombieHorse.setBaby(true);
